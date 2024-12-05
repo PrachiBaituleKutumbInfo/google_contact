@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:google_contacts/user_profile_page.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CreateContactPage extends StatefulWidget {
@@ -20,6 +21,7 @@ class _CreateContactPageState extends State<CreateContactPage> {
   final TextEditingController companyController = TextEditingController();
   final TextEditingController jobTitleController = TextEditingController();
   final TextEditingController noteController = TextEditingController();
+  final TextEditingController dayController = TextEditingController();
   final TextEditingController yearController = TextEditingController();
   bool showMiddleName = false;
 
@@ -30,7 +32,6 @@ class _CreateContactPageState extends State<CreateContactPage> {
 
   // Dropdowns for Month and Day
   String? selectedMonth;
-  String? selectedDay;
   final List<String> months = [
     'January',
     'February',
@@ -45,7 +46,7 @@ class _CreateContactPageState extends State<CreateContactPage> {
     'November',
     'December'
   ];
-  final List<String> days = List.generate(31, (index) => '${index + 1}');
+  // final List<String> days = List.generate(31, (index) => '${index + 1}');
 
   Widget buildDynamicFieldSection(
     String label,
@@ -94,8 +95,9 @@ class _CreateContactPageState extends State<CreateContactPage> {
             ],
           );
         }).toList(),
+        SizedBox(height: 10.0),
         Align(
-          alignment: Alignment.centerRight,
+          alignment: Alignment.center,
           child: TextButton.icon(
             onPressed: () {
               // Safely add a dynamic field
@@ -118,7 +120,7 @@ class _CreateContactPageState extends State<CreateContactPage> {
   }
 
   void saveContact() {
-    Map<String, dynamic> contact = {
+    Map<String, dynamic> contactData = {
       'firstName': firstNameController.text,
       'lastName': lastNameController.text,
       'company': companyController.text,
@@ -128,15 +130,32 @@ class _CreateContactPageState extends State<CreateContactPage> {
       'addresses':
           addressControllers.map((controller) => controller.text).toList(),
       'month': selectedMonth,
-      'day': selectedDay,
+      'day': dayController.text,
       'year': yearController.text,
       'note': noteController.text,
     };
 
-    print('Contact Saved: $contact');
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Contact Saved!'),
+    // Create a Contact object
+    Contact contact = Contact(
+      firstName: firstNameController.text,
+      lastName: lastNameController.text,
+      company: companyController.text,
+      jobTitle: jobTitleController.text,
+      emails: emailControllers.map((controller) => controller.text).toList(),
+      phones: phoneControllers.map((controller) => controller.text).toList(),
+      addresses:
+          addressControllers.map((controller) => controller.text).toList(),
+      month: selectedMonth,
+      day: dayController.text,
+      year: yearController.text,
+      note: noteController.text,
+    );
+
+    // Navigate to the ViewContactPage and pass the contact object
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ViewContactPage(contact: contact),
       ),
     );
   }
@@ -195,7 +214,6 @@ class _CreateContactPageState extends State<CreateContactPage> {
     }
   }
 
-  @override
   void dispose() {
     firstNameController.dispose();
     lastNameController.dispose();
@@ -398,35 +416,21 @@ class _CreateContactPageState extends State<CreateContactPage> {
                 ),
                 SizedBox(width: 10),
                 Expanded(
-                  child: DropdownButtonFormField<String>(
-                    decoration: InputDecoration(
-                      labelText: 'Day',
-                      border: OutlineInputBorder(),
-                    ),
-                    value: selectedDay,
-                    items: days
-                        .map((day) => DropdownMenuItem(
-                              value: day,
-                              child: Text(day),
-                            ))
-                        .toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        selectedDay = value;
-                      });
-                    },
-                  ),
-                ),
-                SizedBox(width: 10),
-                Expanded(
                   child: _buildTextField(
-                    controller: yearController,
-                    label: "Year (Optional)",
-                    prefixIcon: Icons.date_range,
+                    controller: dayController,
+                    label: "Day",
                     keyboardType: TextInputType.number,
                   ),
                 ),
               ]),
+              SizedBox(width: 10),
+
+              _buildTextField(
+                controller: yearController,
+                label: "Year (Optional)",
+                prefixIcon: Icons.date_range,
+                keyboardType: TextInputType.number,
+              ),
 
               // Note Section
               _buildSectionTitle('Note'),
@@ -525,7 +529,6 @@ void _showCreateLabelDialog(BuildContext context) {
           TextButton(
             onPressed: () {
               // Logic to create label
-              Navigator.of(context).pop(); // Close the dialog
             },
             child: Text("Save"),
           ),
