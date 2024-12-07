@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:google_contacts/user_profile_page.dart';
 import 'package:image_picker/image_picker.dart';
@@ -284,7 +283,7 @@ class _CreateContactPageState extends State<CreateContactPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 25.0),
+              SizedBox(height: 20.0),
               // Profile Photo Placeholder with + Icon
               Center(
                 child: Stack(
@@ -323,7 +322,7 @@ class _CreateContactPageState extends State<CreateContactPage> {
                 ),
               ),
 
-              SizedBox(height: 10),
+              SizedBox(height: 15),
               // Add Label Section
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -341,19 +340,22 @@ class _CreateContactPageState extends State<CreateContactPage> {
                 ],
               ),
 
-              SizedBox(height: 20),
+              SizedBox(height: 15),
 
               // First Name with Dropdown Arrow
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
-                        child: _buildTextField(
-                          controller: firstNameController,
-                          label: "First Name",
-                          prefixIcon: Icons.person,
+                      Container(
+                        child: Expanded(
+                          child: _buildTextField(
+                            controller: firstNameController,
+                            label: "First Name",
+                            prefixIcon: Icons.person,
+                          ),
                         ),
                       ),
                       IconButton(
@@ -369,25 +371,57 @@ class _CreateContactPageState extends State<CreateContactPage> {
 
                   // Middle Name Field (conditionally displayed)
                   if (showMiddleName)
-                    _buildTextField(
-                      controller: middleNameController,
-                      label: "Middle Name",
-                      prefixIcon: Icons.person_outline,
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: _buildTextField(
+                            controller: middleNameController,
+                            label: "Middle Name",
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            showMiddleName
+                                ? Icons.keyboard_arrow_up
+                                : Icons.keyboard_arrow_down,
+                            color: Colors.transparent,
+                          ),
+                          onPressed: () {},
+                        ),
+                      ],
                     ),
 
                   // Last Name Field
-                  _buildTextField(
-                    controller: lastNameController,
-                    label: "Last Name",
-                    prefixIcon: Icons.person_outline,
-                  ),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
                         child: _buildTextField(
-                          controller: companyController,
-                          label: "Company",
-                          prefixIcon: Icons.work,
+                          controller: lastNameController,
+                          label: "Last Name",
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          showMiddleName
+                              ? Icons.keyboard_arrow_up
+                              : Icons.keyboard_arrow_down,
+                          color: Colors.transparent,
+                        ),
+                        onPressed: () {},
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        child: Expanded(
+                          child: _buildTextField(
+                            controller: companyController,
+                            label: "Company",
+                            prefixIcon: Icons.work,
+                          ),
                         ),
                       ),
                       IconButton(
@@ -400,17 +434,48 @@ class _CreateContactPageState extends State<CreateContactPage> {
                       ),
                     ],
                   ),
-                  _buildTextField(
-                    controller: jobTitleController,
-                    label: "Job Title",
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: _buildTextField(
+                          controller: jobTitleController,
+                          label: "Job Title",
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          showDepartment
+                              ? Icons.keyboard_arrow_up
+                              : Icons.keyboard_arrow_down,
+                          color: Colors.transparent,
+                        ),
+                        onPressed: () {},
+                      ),
+                    ],
                   ),
-                  if (showDepartment)
-                    _buildTextField(
-                      controller: departmentController,
-                      label: "Department",
-                    ),
-                  SizedBox(height: 15.0),
 
+                  if (showDepartment)
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _buildTextField(
+                            controller: departmentController,
+                            label: "Department",
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            showDepartment
+                                ? Icons.keyboard_arrow_up
+                                : Icons.keyboard_arrow_down,
+                            color: Colors.transparent,
+                          ),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                  SizedBox(height: 10.0),
                   // Emails Section
                   buildDynamicFieldSection(
                     "Email",
@@ -419,7 +484,7 @@ class _CreateContactPageState extends State<CreateContactPage> {
                     "Please enter a valid email",
                     r'^[^@]+@[^@]+\.[^@]+',
                   ),
-                  SizedBox(height: 15.0),
+                  SizedBox(height: 10.0),
 
                   buildDynamicFieldSection(
                     "Phone",
@@ -428,7 +493,7 @@ class _CreateContactPageState extends State<CreateContactPage> {
                     "Please enter a valid phone number",
                     r'^\d+$',
                   ),
-                  SizedBox(height: 15.0),
+                  SizedBox(height: 10.0),
                   buildDynamicFieldSection(
                     "Address",
                     addressControllers,
@@ -460,7 +525,7 @@ class _CreateContactPageState extends State<CreateContactPage> {
                         },
                       ),
                     ),
-                    SizedBox(width: 10),
+                    SizedBox(width: 3.0),
                     Expanded(
                       child: _buildTextField(
                         controller: dayController,
@@ -469,7 +534,7 @@ class _CreateContactPageState extends State<CreateContactPage> {
                       ),
                     ),
                   ]),
-                  SizedBox(width: 10),
+                  SizedBox(width: 10.0),
 
                   _buildTextField(
                     controller: yearController,
