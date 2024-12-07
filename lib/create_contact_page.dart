@@ -12,8 +12,6 @@ class CreateContactPage extends StatefulWidget {
 }
 
 class _CreateContactPageState extends State<CreateContactPage> {
-  // final _formKey = GlobalKey<FormState>();
-
   // Controllers for the main fields
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController middleNameController = TextEditingController();
@@ -200,38 +198,6 @@ class _CreateContactPageState extends State<CreateContactPage> {
       }
     });
   }
-
-  // void _submitForm() {
-  //   if (_formKey.currentState!.validate()) {
-  //     List<String> emails =
-  //         emailControllers.map((controller) => controller.text).toList();
-  //     List<String> phones =
-  //         phoneControllers.map((controller) => controller.text).toList();
-  //     List<String> addresses =
-  //         addressControllers.map((controller) => controller.text).toList();
-  //
-  //     // Display collected information
-  //     showDialog(
-  //       context: context,
-  //       builder: (context) {
-  //         return AlertDialog(
-  //           title: Text("Contact Saved"),
-  //           content: SingleChildScrollView(
-  //             child: Text("Emails: ${emails.join(', ')}\n"
-  //                 "Phones: ${phones.join(', ')}\n"
-  //                 "Addresses: ${addresses.join(', ')}\n"),
-  //           ),
-  //           actions: [
-  //             TextButton(
-  //               onPressed: () => Navigator.of(context).pop(),
-  //               child: Text("OK"),
-  //             ),
-  //           ],
-  //         );
-  //       },
-  //     );
-  //   }
-  // }
 
   void dispose() {
     firstNameController.dispose();
