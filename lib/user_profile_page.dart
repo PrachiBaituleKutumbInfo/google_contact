@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 class Contact {
   final String firstName;
+  final String middleName;
   final String lastName;
   final String company;
   final String jobTitle;
+  final String department;
   final List<String> emails;
   final List<String> phones;
   final List<String> addresses;
@@ -15,9 +17,11 @@ class Contact {
 
   Contact({
     required this.firstName,
+    required this.middleName,
     required this.lastName,
     required this.company,
     required this.jobTitle,
+    required this.department,
     required this.emails,
     required this.phones,
     required this.addresses,
@@ -78,7 +82,7 @@ class ViewContactPage extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
-              ("${contact.firstName} ${contact.lastName}"),
+              ("${contact.firstName} ${contact.middleName} ${contact.lastName}"),
             ),
             const SizedBox(height: 20),
             Row(
